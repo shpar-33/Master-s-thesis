@@ -1,0 +1,623 @@
+
+
+% beamer: 4:3 -> 128mm X 96mm
+% beamer  16:9-> 160 X 90mm
+
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{UK-beamer}[2023/10/19 template for university of koblenz beamer style]
+
+
+
+
+
+
+%TODO boxen mit paket erzeugen ?
+%https://tex.stackexchange.com/questions/11211/can-i-have-framed-blocks-in-beamer
+%https://ctan.net/macros/latex/contrib/tcolorbox/tcolorbox.pdf
+
+
+%https://mirror.physik.tu-berlin.de/pub/CTAN/macros/latex/contrib/xkeyval/xkeyval.pdf
+\RequirePackage{xkeyval}
+
+
+
+%packages to process language=
+\RequirePackage{pgf}
+\RequirePackage{UK-logos}
+
+%packages to process color=
+\RequirePackage{UK-colors}
+
+
+%package to process footlinescaling=
+\RequirePackage{calc}
+
+
+%=================== process color=
+
+%family: famUKbeamer
+%name: color
+%\val,\ni: UserInput in lower case, Number of user input in list of allowed inputs
+%{uk,fb3,...}: list of allowed inputs
+%
+%defines color: clStructure %deprecated! beamer defines color 'structure'
+%defines color: clHigh
+\newcommand{\imArrowColor}{}
+\newcommand{\imArrowWhite}{\logoArrowWhite}
+\define@choicekey*+{famUKbeamer}{color}[\val\ni]{uk,fb3}
+{
+\ifcase\ni\relax
+	\colorlet{clStructure}{clUK}
+	\colorlet{clHigh}{clUKfb3}
+	\renewcommand{\imArrowColor}{\logoArrowUK}
+\or
+	\colorlet{clStructure}{clUKfb3}
+	\colorlet{clHigh}{clUK}
+	\renewcommand{\imArrowColor}{\logoArrowMath}
+\fi
+}
+{
+\PackageError{UK-beamer}{option 'color' must be one of {'uk','fb3'} but is '#1'}
+}
+%
+
+\DeclareOptionX{color}%
+{%begin source
+	\setkeys{famUKbeamer}{color=#1}
+}%end source
+
+%%set default value for color
+\ExecuteOptionsX{color=uk}
+
+
+
+%==================== process language=
+
+%family: famUKbeamer
+%name: language
+%\val,\ni: UserInput in lower case, Number of user in put in list of allowed inputs
+%{en,de,...}: list of allowed inputs
+%
+%passes correct language to package babel
+%defines \fileLogo as filename of correct logo
+\newcommand{\fileLogo}{}
+\define@choicekey*+{famUKbeamer}{language}[\val\ni]{en,de}
+{
+\ifcase\ni\relax
+	\PassOptionsToPackage{english}{babel}%
+	\renewcommand{\fileLogo}{\logoMathEN}
+\or
+	\PassOptionsToPackage{ngerman}{babel}%
+	\renewcommand{\fileLogo}{\logoMathDE}
+\fi
+}
+{
+\PackageError{UK-beamer}{option 'language' must be one of {'en','de'} but is '#1'}
+}
+
+\DeclareOptionX{language}[en]%
+{%begin source
+	\setkeys{famUKbeamer}{language=#1}
+}%end source
+
+%%set default value for language
+\ExecuteOptionsX{language=en}
+
+
+%=================== ignore any unknown option
+
+\DeclareOptionX*{\PackageWarning{UK-beamer}{unknown option '\CurrentOption'}}
+
+
+%===================== process options
+
+\ProcessOptionsX\relax
+
+
+%===================== begin of packages
+
+
+
+%====================== general setting for beamer
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+ %scale only scales size of letters, but not derived sizes like linespacing
+ % -> do not use option scale=
+\RequirePackage[defaultsans]{opensans}
+
+
+\usefonttheme[onlymath]{serif}
+
+\DeclareRobustCommand\sbseries{\fontseries{sb}\selectfont}
+\DeclareTextFontCommand{\textsb}{\sbseries}
+ 
+  
+\RequirePackage{babel}
+
+
+  
+\setbeamertemplate{navigation symbols}{ }
+  
+\setbeamersize{text margin left=8mm}
+  
+
+ 
+ 
+  
+%=================== set colorscheme
+%beameruserguide Sec 12.2 -> defines a color 'structure'
+\usecolortheme[named=clStructure]{structure}
+
+
+
+
+
+
+%===========================================================
+%============= headline ====================================
+%===========================================================
+
+%%define headline, following corporate design
+
+
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamercolor{framesubtitle}{fg=black,bg=white}
+\setbeamerfont{framesubtitle}{series=\sbseries}
+\setbeamerfont{footline}{series=\sbseries}
+
+
+
+
+\usepackage{tikz}
+
+%note background canvas is drawn first, footline is drawn last (beameruserguide §8.2)
+\defbeamertemplate{background canvas}{logotopright}[1][]
+{
+%%location w.r.t north east of frame -> independent of aspectratio
+\begin{tikzpicture}[overlay,remember picture]
+\node[left=0.37cm,below=0.37cm,anchor=north east] at (current page.north east)
+{
+\pgfimage[width=28mm]{\fileLogo}
+};
+\end{tikzpicture}
+}
+
+\defbeamertemplate{background canvas}{logobottomright}[1][]
+{
+\ifnum\thepage>1
+%%location w.r.t south east of frame -> independent of aspectratio
+\begin{tikzpicture}[overlay,remember picture]
+\node[left=0.5\beamer@rightmargin,above=1mm,anchor=south east] at (current page.south east)
+{
+\pgfimage[height=5.2mm]{\fileLogo}%
+};
+\end{tikzpicture}
+\fi
+}
+
+\defbeamertemplate{background canvas}{logoignored}[1][]
+{
+}
+
+
+\setbeamertemplate{background canvas}[logotopright]
+
+
+
+
+
+%https://tex.stackexchange.com/questions/415621/how-to-customize-the-frame-title-subtitle-main-text-in-terms-of-position-and
+\setbeamertemplate{frametitle}
+{
+
+ \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+ \advance\@tempdima by\beamer@leftmargin%
+ \advance\@tempdima by\beamer@rightmargin%
+ \hspace*{2.5mm}
+  \begin{beamercolorbox}[sep=0.5cm,left,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-0.7ex%
+    \if@tempswa\else\csname beamer@fteleft\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {%
+      \usebeamerfont{framesubtitle}%
+      \usebeamercolor[fg]{framesubtitle}%
+      \insertframesubtitle\strut\par%
+      }%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+
+
+
+%===========================================================
+%============= content: blocks, itemize,... ================
+%===========================================================
+
+
+%use Numbers for tables etc
+\setbeamertemplate{caption}[numbered]
+
+
+
+%enumitem package does conflict with beamer class
+\setbeamertemplate{itemize item}{ {\color{structure}$\blacksquare$} }
+\setbeamertemplate{itemize subitem}{ {\color{structure}$\blacksquare$} }
+\setbeamertemplate{itemize subsubitem}{ {\color{structure}$\blacksquare$} }
+
+\setbeamersize{description width=15mm}
+
+
+
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamercolor{block title}{fg=white,bg=structure}   
+\setbeamercolor{block body}{fg=black,bg=structure!20}
+
+\colorlet{clExample}{cldarkyellow}
+\setbeamercolor{block title example}{fg=black,bg=clExample}
+\setbeamercolor{block body example}{fg=black,bg=clExample!20}
+
+\setbeamercolor{block title alerted}{fg=white,bg=clHigh}
+\setbeamercolor{block body alerted}{parent=normal text,fg=black,bg=clHigh!10}
+
+
+
+% The following defines the frames around boxes
+%%%%%%%%%the following is a copy from IGDK styles (TUM)
+\newcommand\beamerboxesframed[2][]{%
+  \global\let\beamer@firstlineitemizeunskip=\relax%
+  \vbox\bgroup%
+  \setkeys{beamerboxes}{upper=block title,lower=block body,width=\textwidth}%
+  \setkeys{beamerboxes}{#1}%
+  {%
+    \usebeamercolor{\bmb@lower}%
+    \globalcolorstrue%
+    \colorlet{lower.bg}{bg}%
+  }%
+  {%
+    \usebeamercolor{\bmb@upper}%
+    \globalcolorstrue%
+    \colorlet{upper.bg}{bg}%
+  }%
+  %
+  % Typeset head
+  %
+  \vskip4bp
+  \setbox\bmb@box=\hbox{%
+    \begin{minipage}[b]{\bmb@width}%
+      \usebeamercolor[fg]{\bmb@upper}%
+      #2%
+    \end{minipage}}%
+  \ifdim\wd\bmb@box=0pt%
+    \setbox\bmb@box=\hbox{}%
+    \ht\bmb@box=0pt%
+    \bmb@prevheight=-4.5pt%
+  \else%
+    \wd\bmb@box=\bmb@width%
+    \bmb@temp=\dp\bmb@box%
+    \ifdim\bmb@temp<1.5pt%
+      \bmb@temp=1.5pt%
+    \fi%
+    \setbox\bmb@box=\hbox{\raise\bmb@temp\hbox{\box\bmb@box}}%
+    \dp\bmb@box=0pt%
+    \bmb@prevheight=\ht\bmb@box%
+  \fi%
+  \bmb@temp=\bmb@width%
+  \bmb@dima=\bmb@temp\advance\bmb@dima by2.2bp%
+  \bmb@dimb=\bmb@temp\advance\bmb@dimb by4bp%
+  \hbox{%
+    \usebeamercolor{box frames}%
+    \begin{pgfpicture}{0bp}{+-\ht\bmb@box}{0bp}{+-\ht\bmb@box}
+      \ifdim\wd\bmb@box=0pt%
+        \color{lower.bg}%
+      \else%
+        \color{upper.bg}%
+      \fi%
+      \pgfpathqmoveto{-4bp}{3bp}
+      \pgfpathlineto{\pgfpoint{\bmb@dimb}{3bp}}
+      \bmb@dima=-\ht\bmb@box%
+      \advance\bmb@dima by-2pt%
+      \pgfpathlineto{\pgfpoint{\bmb@dimb}{\bmb@dima}}
+      \pgfpathlineto{\pgfpoint{-4bp}{\bmb@dima}}
+      \pgfpathclose
+      \pgfsetstrokecolor{box frames.fg}\pgfusepath{stroke, fill}
+    \end{pgfpicture}%
+    \copy\bmb@box%
+  }%
+  \nointerlineskip%
+  \ifdim\wd\bmb@box=0pt
+  \else
+    \vskip2.4pt%
+  \fi%
+  \nointerlineskip%
+  \setbox\bmb@colorbox=\hbox{{\pgfpicturetrue\pgfsetcolor{lower.bg}}}%
+  \setbox\bmb@box=\hbox\bgroup\begin{minipage}[b]{\bmb@width}%
+    \vskip2pt%
+    \usebeamercolor[fg]{\bmb@lower}%
+    \colorlet{beamerstructure}{upper.bg}%
+    \colorlet{structure}{upper.bg}%
+}
+
+\def\endbeamerboxesframed{%
+  \end{minipage}\egroup%
+  \wd\bmb@box=\bmb@width%
+  \bmb@temp=\dp\bmb@box%
+  \advance\bmb@temp by.5pt%
+  \setbox\bmb@box=\hbox{\raise\bmb@temp\hbox{\box\bmb@box}}%
+  \dp\bmb@box=0pt%
+  \bmb@temp=\wd\bmb@box%
+  \bmb@dima=\bmb@temp\advance\bmb@dima by2.2bp%
+  \bmb@dimb=\bmb@temp\advance\bmb@dimb by4bp%
+  \hbox{%
+    \usebeamercolor{box frames}%
+    \begin{pgfpicture}{0bp}{0bp}{0bp}{0bp}
+      \unhbox\bmb@colorbox%
+      \pgfpathmoveto{\pgfpoint{-4bp}{\ht\bmb@box}}
+      \pgfpathlineto{\pgfpoint{-4bp}{-3bp}}
+      \pgfpathlineto{\pgfpoint{\the\bmb@dimb}{-3bp}}
+      \bmb@dima=\ht\bmb@box%
+      \pgfpathlineto{\pgfpoint{\bmb@dimb}{\bmb@dima}}
+      \pgfsetstrokecolor{box frames.fg}\pgfusepath{stroke, fill}
+    \end{pgfpicture}%
+    \box\bmb@box%
+  }%
+  \vskip2bp%
+  \egroup% of \vbox\bgroup
+}
+
+
+
+
+\defbeamertemplateparent{blocks}[framed]%
+{block begin,block end,%
+  block alerted begin,block alerted end,%
+  block example begin,block example end}[1][]
+{[#1]}
+
+\defbeamertemplate{block begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title,lower=block body,#1]%
+    {\raggedright\usebeamerfont*{block title}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body}%
+}
+\defbeamertemplate{block end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+
+
+\defbeamertemplate{block alerted begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title alerted,lower=block body alerted,#1]%
+    {\raggedright\usebeamerfont*{block title alerted}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body alerted}%
+}%
+\defbeamertemplate{block alerted end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+
+
+\defbeamertemplate{block example begin}{framed}[1][]
+{
+  \par\vskip\medskipamount%
+  \begin{beamerboxesframed}[upper=block title example,lower=block body example,#1]
+    {\raggedright\usebeamerfont*{block title example}\insertblocktitle}%
+    \raggedright%
+    \usebeamerfont{block body example}%
+}%
+\defbeamertemplate{block example end}{framed}[1][]
+{\end{beamerboxesframed}\vskip\smallskipamount}
+
+
+\setbeamertemplate{blocks}[framed]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  end of copy from IGDK styles (TUM)
+
+
+
+
+
+
+%===========================================================
+%============= footline ====================================
+%===========================================================
+
+
+
+\newlength{\ftDepth}%
+\newlength{\ftHeight}%
+\newlength{\ftArrowHeight}
+
+%define the classic blocky footline
+\defbeamertemplate{footline}{classic}[1][]
+{
+\setlength{\ftDepth}{5.3mm}%space below line 
+\setlength{\ftHeight}{4.6mm}%space above line (including text)
+\setbeamercolor{clFootline}{fg=white,bg=clStructure}
+
+ \leavevmode%
+
+  \setlength{\ftArrowHeight}{\heightof{I}}%Arrow shall be as high as title
+  \hbox{%
+  	% Titel
+	\begin{beamercolorbox}[wd=0.45\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+   	\hspace{\beamer@leftmargin}
+	\pgfimage[height=\ftArrowHeight]{\imArrowWhite}\ %
+  	\textbf{\insertshorttitle}
+	\end{beamercolorbox}%
+	%
+	% Author
+	\begin{beamercolorbox}[wd=0.2\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\textbf{\insertshortauthor} 
+	\end{beamercolorbox}%
+	%
+	% Date
+	\begin{beamercolorbox}[wd=0.2\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\raggedleft
+	\insertshortdate 
+	\end{beamercolorbox}%
+	%
+	% Page
+	\begin{beamercolorbox}[wd=0.15\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\raggedleft 
+ 	\insertframenumber /\inserttotalframenumber \hspace{3em}
+	\end{beamercolorbox}%
+	}%end hbox
+  \vskip0pt%
+}
+
+
+
+
+
+
+
+
+
+%define the new light (white) footline
+\defbeamertemplate{footline}{light}[1][]
+{
+\setlength{\ftDepth}{2.4mm}%space below line 
+\setlength{\ftHeight}{3.5mm}%space above line (including text)
+\setbeamercolor{clFootline}{fg=structure,bg=white}
+
+  \leavevmode%
+  
+  \setlength{\ftArrowHeight}{\heightof{I}}%Arrow shall be as high as title
+  
+
+  \hbox{%
+  	% Titel
+	\begin{beamercolorbox}[wd=0.45\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+   	\hspace{\beamer@leftmargin}
+	\pgfimage[height=\ftArrowHeight]{\imArrowColor}\ %  
+  	\insertshorttitle
+	\end{beamercolorbox}%
+	%
+	% Author
+	\begin{beamercolorbox}[wd=0.2\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\insertshortauthor
+	\end{beamercolorbox}%
+	%
+	% Date
+	\begin{beamercolorbox}[wd=0.15\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\raggedleft
+	\insertshortdate 
+	\end{beamercolorbox}%
+	%
+	% Page
+	\begin{beamercolorbox}[wd=0.17\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+	\raggedleft 
+ 	\insertframenumber /\inserttotalframenumber \hspace{3em}
+	\end{beamercolorbox}%
+	%
+	%right margin
+	\begin{beamercolorbox}[wd=0.03\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+  	\end{beamercolorbox}
+	}%end hbox
+  \vskip0pt%
+}
+
+
+
+
+
+
+%define a white footline including logo
+\defbeamertemplate{footline}{condensed}[1][]
+{
+\setlength{\ftDepth}{2.4mm}%space below line 
+\setlength{\ftHeight}{3.5mm}%space above line (including text)
+\setbeamercolor{clFootline}{fg=structure,bg=white}
+
+
+  \leavevmode%
+  
+ 
+  
+  \setlength{\ftArrowHeight}{\heightof{I}}%Arrow shall be as high as title
+  
+
+  \hbox{%
+   
+  	% Titel
+	\begin{beamercolorbox}[wd=0.80\paperwidth,ht=\ftHeight,dp=\ftDepth]{clFootline}
+   	\hspace{\beamer@leftmargin}
+	\pgfimage[height=\ftArrowHeight]{\imArrowColor}\ %  
+  	\insertshorttitle%
+  	\,\, | \,\,%
+  	\insertshortauthor%
+  	\,\, | \,\,%
+  	\insertshortdate%
+  	\,\, | \,\,%
+  	\insertframenumber /\inserttotalframenumber 	
+	\end{beamercolorbox}% 	
+	
+	}%end hbox
+	
+		
+  \vskip0pt%
+}
+
+
+
+
+%set the present footline to use
+\setbeamertemplate{footline}[light]
+
+
+
+
+
+
+%=============================================================
+
+
+
+%below the packages, that are used by default
+\usepackage{csquotes}
+
+\usepackage{amsfonts}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{MnSymbol}
+\usepackage{mathtools}
+\usepackage[sans]{dsfont}
+
+
+\usepackage{graphicx}%for images
+\usepackage{multimedia}%for movie 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\endinput

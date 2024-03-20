@@ -1,0 +1,35 @@
+ 
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{UK-colors}[2023/01/19 color definitions to be used for UK files]
+
+
+
+\RequirePackage{xcolor}
+
+
+
+%https://www.uni-koblenz-landau.de/de/presse/corporate-design
+%https://latexcolor.com/
+% the official color for UKO
+\definecolor{clUKred}{RGB}{198,26,39}
+\definecolor{clUKgreen}{RGB}{0,151,138}
+
+\colorlet{clUK}{clUKred}
+\colorlet{clUKfb3}{clUKgreen}
+
+
+%===============================================================
+
+
+%additional colors
+%https://latexcolor.com/
+%TODO define more colors
+\definecolor{cldarkspringgreen}{rgb}{0.09, 0.45, 0.27}
+\colorlet{clgreen}{cldarkspringgreen}
+
+\definecolor{clcarmine}{rgb}{0.59, 0.0, 0.09}
+\colorlet{cldarkred}{clcarmine}
+
+\definecolor{clamber}{rgb}{1.0, 0.75, 0.0}
+\colorlet{cldarkyellow}{clamber}

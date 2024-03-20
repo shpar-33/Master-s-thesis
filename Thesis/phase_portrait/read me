@@ -1,0 +1,59 @@
+# (sage code )
+# fifthcase is for reducing plane with p0,p1,p2
+
+#
+# define a function with four parameter alpha , beta, gamma, filename 
+#
+
+def fifthCase(a,b,g,fname):
+   # variables 
+    t = var('t')
+    p0 = var('p0')
+    p1 = var('p1') 
+    p2 = var('p2') 
+
+# 
+#  
+# P2 = 1-p0-p1
+# write equation as a function , 
+
+    f0 = -a*(p1+2*(1-p0-p1))*p0 + g * p1
+    f1 = a*(p1+2*(1-p0-p1))*p0 - ((a/2)*(p1+2*(1-p0-p1))+b+g)*p1 + 2 * g * (1-p0-p1)
+    f2 = ((a/2)*(p1+2*(1-p0-p1))+b)*p1 - 2 * g * (1-p0-p1)
+
+# combine 
+ 
+    DE=[f0,f1]
+
+####  define a function 
+
+    def p(x,y):
+        v = vector(DE)
+        return v/v.norm() # normalize a vector 
+
+###### plot vector field 
+    V = plot_vector_field(p(p0,p1), (p0, -0.2, 1.2), (p1, -0.2, 1.2),title=f'{fname}')
+    filename = fname+'.png'
+###### label     
+    V.axes_labels([p0, p1])
+
+    
+    #V.show(title=f'{fname}', frame=True) #  didn't work out 
+### save a file     
+    V.save('fifthcase/'+filename)
+
+### make a list 
+
+a_list = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.0]
+b_list = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.0]
+g_list = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.0]
+
+#### for looping in for different value 
+for i in a_list:
+    fifthCase(i,0.2,0.2,'alpha_'+str(i))
+
+for i in b_list:
+    fifthCase(0.4,i,0.2,'beta_'+str(i))
+
+for i in g_list:
+    fifthCase(0.4,0.2,i,'gamma_'+str(i))

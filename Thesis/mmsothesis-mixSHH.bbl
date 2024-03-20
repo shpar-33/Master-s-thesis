@@ -1,0 +1,133 @@
+\begin{thebibliography}{10}
+
+\bibitem{cellsage}
+Cell in sagemath for running code.
+\newblock \url{https://sagecell.sagemath.org}.
+\newblock Accessed: 2023-08-10.
+
+\bibitem{docsagemath}
+Documentation for desolvers.
+\newblock
+  \url{https://doc.sagemath.org/html/en/reference/calculus/sage/calculus/desolvers.html}.
+\newblock Accessed: 2023-08-10.
+
+\bibitem{indicatorfunction}
+Indicator function.
+\newblock \url{https://en.wikipedia.org/wiki/Indicator_function}.
+\newblock Accessed: 2023-06-20.
+
+\bibitem{masterequation}
+masterequation.
+\newblock \url{https://en.wikipedia.org/w/index.php?title=Master_equation}.
+\newblock Accessed: 2023-06-20.
+
+\bibitem{matplotlibpyplot}
+Matplotlib.pyplot.
+\newblock
+  \url{https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html}.
+\newblock Accessed: 2023-09-10.
+
+\bibitem{numpyarray}
+Numpy.array.
+\newblock
+  \url{https://numpy.org/doc/stable/reference/generated/numpy.array.html}.
+\newblock Accessed: 2023-07-17.
+
+\bibitem{numpylinspace}
+Numpy.linspace.
+\newblock
+  \url{https://numpy.org/doc/stable/reference/generated/numpy.linspace.html}.
+\newblock Accessed: 2023-07-17.
+
+\bibitem{Phaseportrait}
+Phase portrait.
+\newblock \url{https://en.wikipedia.org/wiki/Phase_portrait}.
+\newblock Accessed: 2023-10-20.
+
+\bibitem{solveivp}
+Rk45 module.
+\newblock
+  \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html}.
+\newblock Accessed: 2023-07-19.
+
+\bibitem{streamlineplot}
+Streamlineplot.
+\newblock
+  \url{https://doc.sagemath.org/html/en/reference/plotting/sage/plot/streamline_plot.html}.
+\newblock Accessed: 2023-11-03.
+
+\bibitem{vectorfieldplot}
+Vectorfieldplot.
+\newblock
+  \url{https://doc.sagemath.org/html/en/reference/plotting/sage/plot/plot_field.html}.
+\newblock Accessed: 2023-10-22.
+
+\bibitem{brauer2017mathematical}
+Fred Brauer.
+\newblock Mathematical epidemiology: Past, present, and future.
+\newblock {\em Infectious Disease Modelling}, 2(2):113--127, 2017.
+
+\bibitem{dadlani2020deterministic}
+Aresh Dadlani, Richard~O Afolabi, Hyoyoung Jung, Khosrow Sohraby, and Kiseon
+  Kim.
+\newblock Deterministic models in epidemiology: from modeling to
+  implementation.
+\newblock {\em arXiv preprint arXiv:2004.04675}, 2020.
+
+\bibitem{dormand1980family}
+John~R Dormand and Peter~J Prince.
+\newblock A family of embedded runge-kutta formulae.
+\newblock {\em Journal of computational and applied mathematics}, 6(1):19--26,
+  1980.
+
+\bibitem{egbetade2018local}
+SA~Egbetade, IA~Salawu, and PA~Fasanmade.
+\newblock Local stability of equilibrium points of a sir mathematical model of
+  infectious diseases.
+\newblock {\em World Journal of Research and Review}, 6(3):262678, 2018.
+
+\bibitem{hethcote2000mathematics}
+Herbert~W Hethcote.
+\newblock The mathematics of infectious diseases.
+\newblock {\em SIAM review}, 42(4):599--653, 2000.
+
+\bibitem{holmes2022approximating}
+Alex Holmes, Mike Tildesley, and Louise Dyson.
+\newblock Approximating steady state distributions for household structured
+  epidemic models.
+\newblock {\em Journal of Theoretical Biology}, 534:110974, 2022.
+
+\bibitem{kessler2008epidemic}
+David~A Kessler.
+\newblock Epidemic size in the sis model of endemic infections.
+\newblock {\em Journal of applied probability}, 45(3):757--778, 2008.
+
+\bibitem{mccann2013bifurcation}
+Caitlin McCann.
+\newblock Bifurcation analysis of non-linear differential equations.
+\newblock {\em University of LiverPool}, 2013.
+
+\bibitem{Mishraetal}
+Sharmistha Mishra, David~N Fisman, and Marie-Claude Boily.
+\newblock The abc of terms used in mathematical models of infectious diseases.
+\newblock {\em Journal of Epidemiology and Community Health (1979-)},
+  65(1):87--94, 2011.
+
+\bibitem{morgan2015linearization}
+Robert Morgan.
+\newblock Linearization and stability analysis of nonlinear problems.
+\newblock {\em Rose-Hulman Undergraduate Mathematics Journal}, 16(2):5, 2015.
+
+\bibitem{sattenspiel1990modeling}
+Lisa Sattenspiel.
+\newblock Modeling the spread of infectious disease in human populations.
+\newblock {\em American Journal of Physical Anthropology}, 33(S11):245--276,
+  1990.
+
+\bibitem{simonetal}
+Carl~P. Simon and John~A. Jacquez.
+\newblock Reproduction numbers and the stability of equilibria of si models for
+  heterogeneous populations.
+\newblock {\em SIAM Journal on Applied Mathematics}, 52(2):541--576, 1992.
+
+\end{thebibliography}
