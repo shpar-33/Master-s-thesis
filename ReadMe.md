@@ -9,8 +9,8 @@
 #### - Disease Free equilibrium and Endemic equilibrium 
 #### - stability
 ### Thesis/code 
-#### - ode_solver code SciPy  
+#### - ode_solver (SciPy)  
 ### Thesis/graph  
-#### - matplotlib for drawing graph, 
-#### - sagemath program for streamlined graph 
+#### - graph (matplotlib). 
+#### - streamlined graph(sagemath). 
  
